@@ -39,7 +39,7 @@ export const editProduct = async (req: Request, res: Response, next: NextFunctio
   if (productName && company && country && contact && discount && selectPlan && productId) {
 
     try {
-      const product = await prisma.product.update({
+      const editProduct = await prisma.product.update({
         where: {
           id: productId
         },
@@ -72,7 +72,7 @@ export const editMerchant = async (req: Request, res: Response, next: NextFuncti
   if (businessName && email && password && contact && location) {
 
     try {
-      const product = await prisma.merchant.update({
+      const editMerchant = await prisma.merchant.update({
         where: {
           id: id
         },
@@ -99,9 +99,9 @@ export const editMerchant = async (req: Request, res: Response, next: NextFuncti
 export const getProduct = async (req: Request, res: Response, next: NextFunction) => {
 
   try {
-    const product = await prisma.product.findMany()
+    const getProducts = await prisma.product.findMany()
 
-    return res.status(200).json(product)
+    return res.status(200).json(getProducts)
   } catch (error) {
     console.log('err', error);
     return res.status(500).json({ message: 'something went wrong' })
@@ -111,9 +111,9 @@ export const getProduct = async (req: Request, res: Response, next: NextFunction
 export const getMerchant = async (req: Request, res: Response, next: NextFunction) => {
 
   try {
-    const product = await prisma.product.findMany()
+    const getMerchants = await prisma.merchant.findMany()
 
-    return res.status(200).json(product)
+    return res.status(200).json(getMerchants)
   } catch (error) {
     console.log('err', error);
     return res.status(500).json({ message: 'something went wrong' })
