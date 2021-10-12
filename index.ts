@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json())
 app.use('/api', services);
 
-const port = 3000;
+const port = 8000;
 
 app.listen(port, () =>
     console.log(`Express app listening on localhost:${port}`)
