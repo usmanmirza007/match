@@ -50,7 +50,7 @@ export const editProduct = async (req: Request, res: Response, next: NextFunctio
           contact: contact,
           discount: discount,
           select_plan: selectPlan,
-          id: id
+          merchantId: id
         }
       })
 
