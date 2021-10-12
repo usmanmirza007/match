@@ -1,7 +1,7 @@
 import express from 'express'
 // require('dotenv').config()
 
-import { merchant } from './src/merchant/index'
+import { services } from './src/services/index'
 
 const app = express();
 
@@ -9,8 +9,7 @@ const app = express();
 
 // Mount REST on /api
 app.use(express.json())
-app.use('/api', merchant);
-
+app.use('/api', services);
 
 const port = 3000;
 

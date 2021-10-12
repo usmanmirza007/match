@@ -8,12 +8,23 @@ datasource db {
 }
 
 model Product {
-  id           Int    @id @default(autoincrement())
-  product_name String @db.VarChar(191)
-  company      String @unique @db.VarChar(191)
-  country      String @db.VarChar(15)
-  contact      Int 
-  discount     String @db.VarChar(191)
-  select_plan  String @default("")
+  id            Int       @id @default(autoincrement())
+  product_name  String
+  company       String
+  country       String
+  contact       String
+  discount      Int       @db.UnsignedInt
+  select_plan   String
+  merchant_user Merchant? @relation(fields: [merchantId], references: [id])
+  merchantId    Int
+}
 
+model Merchant {
+  id            Int       @id @default(autoincrement())
+  business_name String
+  password      String
+  email         String    @unique
+  contact       String
+  location      String
+  Product       Product[]
 }

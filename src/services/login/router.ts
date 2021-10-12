@@ -2,7 +2,7 @@ import express from 'express';
 
 import * as controller from './controller';
 
-export const productRouter = express.Router();
+export const loginRouter = express.Router();
 
 /** POST /api/auth */
-productRouter.route('/').post(controller.create);
+loginRouter.route('/').post(controller.loginMerchant);
