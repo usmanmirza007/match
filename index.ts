@@ -1,5 +1,6 @@
 import express from 'express'
 // require('dotenv').config()
+import cors from 'cors'
 
 import { services } from './src/services/index'
 
@@ -9,6 +10,7 @@ const app = express();
 
 // Mount REST on /api
 app.use(express.json())
+app.use(cors());
 app.use('/api', services);
 
 const port = 8000;
