@@ -15,7 +15,7 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
           company: company,
           country: country,
           contact: contact,
-          discount: discount,
+          discount: parseInt(discount),
           select_plan: selectPlan,
           merchantId: id
         }

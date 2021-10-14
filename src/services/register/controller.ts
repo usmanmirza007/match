@@ -6,7 +6,6 @@ const prisma = new PrismaClient();
 
 export const registerRouter = async (req: Request, res: Response, next: NextFunction) => {
   const { businessName, email, password, contact, location } = req.body;
-  console.log('body', req.body);
 
   if (!businessName || !email || !password || !contact || !location) {
 
