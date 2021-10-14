@@ -67,9 +67,9 @@ export const editProduct = async (req: Request, res: Response, next: NextFunctio
 };
 
 export const editMerchant = async (req: Request, res: Response, next: NextFunction) => {
-  const { businessName, email, password, contact, location } = req.body;
+  const { businessName, email, contact, location } = req.body;
   const id = (req as any).user.id
-  if (businessName && email && password && contact && location) {
+  if (businessName && email && contact && location) {
 
     try {
       const editMerchant = await prisma.merchant.update({
