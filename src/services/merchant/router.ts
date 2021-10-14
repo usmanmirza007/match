@@ -14,3 +14,5 @@ merchantRouter.route('/get-merchant').get(jwt(secret_key), controller.getMerchan
 merchantRouter.route('/edit-product').post(jwt(secret_key), controller.editProduct);
 merchantRouter.route('/edit-merchant').post(jwt(secret_key), controller.editMerchant);
 merchantRouter.route('/delete-merchant').delete(jwt(secret_key), controller.deleteMerchant);
+merchantRouter.route('/delete-product').delete(jwt(secret_key), controller.deleteProduct);
+

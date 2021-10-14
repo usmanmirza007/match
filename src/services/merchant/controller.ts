@@ -139,3 +139,14 @@ export const deleteMerchant = async (req: Request, res: Response, next: NextFunc
     return res.status(500).json({ message: 'something went wrong' })
   }
 };
+
+export const deleteProduct = async (req: Request, res: Response, next: NextFunction) => {
+  const { id } = req.body;
+
+  try {
+    await prisma.product.delete({ where: { id: parseInt(id) } })
+    return res.status(200).json();
+  } catch (error) {
+    return res.status(500).json({ message: 'something went wrong' })
+  }
+};
