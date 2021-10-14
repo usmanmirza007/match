@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
@@ -15,7 +16,7 @@ model Product {
   contact       String
   discount      Int       @db.UnsignedInt
   select_plan   String
-  merchant_user Merchant? @relation(fields: [merchantId], references: [id])
+  merchant_user Merchant? @relation(fields: [merchantId], references: [id], onDelete: Cascade)
   merchantId    Int
 }
 

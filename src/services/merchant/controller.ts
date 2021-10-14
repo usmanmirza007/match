@@ -128,3 +128,14 @@ export const getMerchant = async (req: Request, res: Response, next: NextFunctio
     return res.status(500).json({ message: 'something went wrong' })
   }
 };
+
+export const deleteMerchant = async (req: Request, res: Response, next: NextFunction) => {
+  const { id } = req.body;
+
+  try {
+    await prisma.merchant.delete({ where: { id: parseInt(id) } })
+    return res.status(200).json();
+  } catch (error) {
+    return res.status(500).json({ message: 'something went wrong' })
+  }
+};
