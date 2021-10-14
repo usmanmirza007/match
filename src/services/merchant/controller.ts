@@ -97,11 +97,20 @@ export const editMerchant = async (req: Request, res: Response, next: NextFuncti
 };
 
 export const getProduct = async (req: Request, res: Response, next: NextFunction) => {
-
+  const id = (req as any).user.id
   try {
-    const getProducts = await prisma.product.findMany()
+    const products = await prisma.product.findMany({
+      where: {
+        id: id
+      }
+    })
+    if (products?.length) {
+      return res.status(200).json(products)
+    }
+    else {
+      return res.status(404)
 
-    return res.status(200).json(getProducts)
+    }
   } catch (error) {
     console.log('err', error);
     return res.status(500).json({ message: 'something went wrong' })
