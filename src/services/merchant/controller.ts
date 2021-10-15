@@ -4,8 +4,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export const createProduct = async (req: Request, res: Response, next: NextFunction) => {
-  const { productName, company, country, contact, discount, selectPlan } = req.body;
-  const id = (req as any).user.id
+  const { productName, company, country, contact, discount, selectPlan, merchantId } = req.body;
   if (productName && company && country && contact && discount && selectPlan) {
 
     try {
@@ -17,7 +16,7 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
           contact: contact,
           discount: parseInt(discount),
           select_plan: selectPlan,
-          merchantId: id
+          merchantId: merchantId
         }
       })
 
@@ -97,11 +96,12 @@ export const editMerchant = async (req: Request, res: Response, next: NextFuncti
 };
 
 export const getProduct = async (req: Request, res: Response, next: NextFunction) => {
-  const id = (req as any).user.id
+  const { merchantId } = req.body;
+
   try {
     const products = await prisma.product.findMany({
       where: {
-        id: id
+        id: merchantId
       }
     })
     if (products?.length) {
