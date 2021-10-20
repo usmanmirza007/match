@@ -12,7 +12,8 @@ export const loginMerchant = async (req: Request, res: Response, next: NextFunct
 
     return res.status(400).send({ error: 'Incomplete parameter' });
   } else {
-    const merchantUser = await prisma.merchant.findFirst({ where: { email: email } })
+    const merchantUser = await prisma.merchant.findUnique({ where: { email: email } })
+    
     if (merchantUser) {
       
       let matched = bcrypt.compareSync(password, merchantUser.password);

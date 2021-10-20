@@ -16,7 +16,7 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
           contact: contact,
           discount: parseInt(discount),
           select_plan: selectPlan,
-          merchantId: merchantId
+          merchantId: parseInt(merchantId)
         }
       })
 
@@ -47,9 +47,9 @@ export const editProduct = async (req: Request, res: Response, next: NextFunctio
           company: company,
           country: country,
           contact: contact,
-          discount: discount,
+          discount: parseInt(discount),
           select_plan: selectPlan,
-          merchantId: id
+          // merchantId: id
         }
       })
 
@@ -66,8 +66,7 @@ export const editProduct = async (req: Request, res: Response, next: NextFunctio
 };
 
 export const editMerchant = async (req: Request, res: Response, next: NextFunction) => {
-  const { businessName, email, contact, location } = req.body;
-  const id = (req as any).user.id
+  const { businessName, email, contact, location, id } = req.body;
   if (businessName && email && contact && location) {
 
     try {
@@ -95,20 +94,20 @@ export const editMerchant = async (req: Request, res: Response, next: NextFuncti
 
 };
 
-export const getProduct = async (req: Request, res: Response, next: NextFunction) => {
-  const { merchantId } = req.body;
+export const getProducts = async (req: Request, res: Response, next: NextFunction) => {
+  const { merchantId } = req.params;
 
   try {
     const products = await prisma.product.findMany({
       where: {
-        id: merchantId
+        merchantId: parseInt(merchantId)
       }
     })
     if (products?.length) {
       return res.status(200).json(products)
     }
     else {
-      return res.status(404)
+      return res.status(404).json([])
 
     }
   } catch (error) {
@@ -131,6 +130,7 @@ export const getMerchant = async (req: Request, res: Response, next: NextFunctio
 
 export const deleteMerchant = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.body;
+
 
   try {
     await prisma.merchant.delete({ where: { id: parseInt(id) } })
