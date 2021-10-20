@@ -16,7 +16,7 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
           contact: contact,
           discount: parseInt(discount),
           select_plan: selectPlan,
-          merchantId: parseInt(merchantId)
+          adminId: parseInt(merchantId)
         }
       })
 
@@ -70,7 +70,7 @@ export const editMerchant = async (req: Request, res: Response, next: NextFuncti
   if (businessName && email && contact && location) {
 
     try {
-      const editMerchant = await prisma.merchant.update({
+      const editMerchant = await prisma.admin.update({
         where: {
           id: id
         },
@@ -100,7 +100,7 @@ export const getProducts = async (req: Request, res: Response, next: NextFunctio
   try {
     const products = await prisma.product.findMany({
       where: {
-        merchantId: parseInt(merchantId)
+        adminId: parseInt(merchantId)
       }
     })
     if (products?.length) {
@@ -119,7 +119,7 @@ export const getProducts = async (req: Request, res: Response, next: NextFunctio
 export const getMerchant = async (req: Request, res: Response, next: NextFunction) => {
 
   try {
-    const getMerchants = await prisma.merchant.findMany()
+    const getMerchants = await prisma.admin.findMany()
 
     return res.status(200).json(getMerchants)
   } catch (error) {
@@ -133,7 +133,7 @@ export const deleteMerchant = async (req: Request, res: Response, next: NextFunc
 
 
   try {
-    await prisma.merchant.delete({ where: { id: parseInt(id) } })
+    await prisma.admin.delete({ where: { id: parseInt(id) } })
     return res.status(200).json();
   } catch (error) {
     return res.status(500).json({ message: 'something went wrong' })
