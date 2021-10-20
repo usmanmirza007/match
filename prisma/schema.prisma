@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["referentialIntegrity"]
 }
 
@@ -9,18 +9,18 @@ datasource db {
 }
 
 model Product {
-  id            Int       @id @default(autoincrement())
-  product_name  String
-  company       String
-  country       String
-  contact       String
-  discount      Int       @db.UnsignedInt
-  select_plan   String
-  merchant_user Merchant? @relation(fields: [merchantId], references: [id], onDelete: Cascade)
-  merchantId    Int
+  id           Int    @id @default(autoincrement())
+  product_name String
+  company      String
+  country      String
+  contact      String
+  discount     Int    @db.UnsignedInt
+  select_plan  String
+  admin        Admin? @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  adminId      Int
 }
 
-model Merchant {
+model Admin {
   id            Int       @id @default(autoincrement())
   business_name String
   password      String?
@@ -28,4 +28,14 @@ model Merchant {
   contact       String
   location      String
   Product       Product[]
+  adminType     String
+}
+
+model User {
+  id                Int     @id @default(autoincrement())
+  user_name         String
+  password          String?
+  email             String  @unique
+  contact           String
+  subscription_mode String
 }

@@ -8,24 +8,24 @@ const prisma = new PrismaClient();
 export const loginMerchant = async (req: Request, res: Response, next: NextFunction) => {
   const { email, password } = req.body;
 
-  if (!email || !password ) {
+  if (!email || !password) {
 
     return res.status(400).send({ error: 'Incomplete parameter' });
   } else {
-    const merchantUser = await prisma.merchant.findUnique({ where: { email: email } })
-    
+    const merchantUser = await prisma.admin.findUnique({ where: { email: email } })
+
     if (merchantUser) {
-      
+
       let matched = bcrypt.compareSync(password, merchantUser.password);
 
       if (matched) {
         try {
           const merchantData = merchantUser;
-          
+
           // delete merchantData.password;
           const data = await jwt.sign({
             username: email,
-            userType: "user",
+            userType: merchantUser.adminType,
             id: merchantData.id,
           }, secret_key.secret, {
             expiresIn: '4h',
