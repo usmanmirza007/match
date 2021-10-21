@@ -96,3 +96,13 @@ export const editUser = async (req: Request, res: Response, next: NextFunction) 
   }
 
 };
+
+export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+  const { userId } = req.params;
+  try {
+    await prisma.user.delete({ where: { id: parseInt(userId) } })
+    return res.status(200).json();
+  } catch (error) {
+    return res.status(500).json({ message: 'something went wrong' })
+  }
+};

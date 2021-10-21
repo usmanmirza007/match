@@ -11,4 +11,4 @@ export const userRouter = express.Router();
 userRouter.route('/').post(controller.createUser);
 userRouter.route('/').get(controller.getUsers);
 userRouter.route('/edit').post(controller.editUser);
-
+userRouter.route('/:userId').delete(controller.deleteUser);
