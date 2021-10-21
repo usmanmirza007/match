@@ -1,11 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
+var bcrypt = require('bcryptjs');
 
 const prisma = new PrismaClient();
 
 export const createProduct = async (req: Request, res: Response, next: NextFunction) => {
   const { productName, company, country, contact, discount, selectPlan, merchantId } = req.body;
-  if (productName && company && country && contact && discount && selectPlan) {
+  if (productName && company && country && contact && discount && selectPlan && merchantId) {
 
     try {
       const product = await prisma.product.create({
@@ -16,7 +17,7 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
           contact: contact,
           discount: parseInt(discount),
           select_plan: selectPlan,
-          adminId: parseInt(merchantId)
+          merchantId: parseInt(merchantId)
         }
       })
 
@@ -67,12 +68,12 @@ export const editProduct = async (req: Request, res: Response, next: NextFunctio
 
 export const editMerchant = async (req: Request, res: Response, next: NextFunction) => {
   const { businessName, email, contact, location, id } = req.body;
-  if (businessName && email && contact && location) {
+  if (businessName && email && contact && location && id) {
 
     try {
-      const editMerchant = await prisma.admin.update({
+      const editMerchant = await prisma.merchant.update({
         where: {
-          id: id
+          id: parseInt(id)
         },
         data: {
           business_name: businessName,
@@ -93,6 +94,38 @@ export const editMerchant = async (req: Request, res: Response, next: NextFuncti
   }
 
 };
+export const createMerchant = async (req: Request, res: Response, next: NextFunction) => {
+  const { businessName, email, password, contact, location } = req.body;
+  if (businessName && email && password && contact && location) {
+    const merchant = await prisma.merchant.findUnique({ where: { email: email } })
+    if (merchant) {
+      return res.status(409).json({ message: 'Merchant already exists' })
+    } else {
+      try {
+        var hash = bcrypt.hashSync(password, 8);
+        const merchant = await prisma.merchant.create({
+
+          data: {
+            business_name: businessName,
+            email: email,
+            contact: contact,
+            location: location,
+            password: hash
+          }
+        })
+
+        return res.status(200).json({})
+      } catch (error) {
+        console.log('err', error);
+        return res.status(500).json({ message: 'something went wrong' })
+      }
+    }
+  } else {
+    return res.status(400).send({ error: 'Incomplete parameter' });
+
+  }
+
+};
 
 export const getProducts = async (req: Request, res: Response, next: NextFunction) => {
   const { merchantId } = req.params;
@@ -100,7 +133,7 @@ export const getProducts = async (req: Request, res: Response, next: NextFunctio
   try {
     const products = await prisma.product.findMany({
       where: {
-        adminId: parseInt(merchantId)
+        merchantId: parseInt(merchantId)
       }
     })
     if (products?.length) {
@@ -119,7 +152,7 @@ export const getProducts = async (req: Request, res: Response, next: NextFunctio
 export const getMerchant = async (req: Request, res: Response, next: NextFunction) => {
 
   try {
-    const getMerchants = await prisma.admin.findMany()
+    const getMerchants = await prisma.merchant.findMany()
 
     return res.status(200).json(getMerchants)
   } catch (error) {
@@ -133,7 +166,7 @@ export const deleteMerchant = async (req: Request, res: Response, next: NextFunc
 
 
   try {
-    await prisma.admin.delete({ where: { id: parseInt(id) } })
+    await prisma.merchant.delete({ where: { id: parseInt(id) } })
     return res.status(200).json();
   } catch (error) {
     return res.status(500).json({ message: 'something went wrong' })

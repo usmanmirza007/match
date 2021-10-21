@@ -10,6 +10,7 @@ export const merchantRouter = express.Router();
 /** POST /api/auth */
 merchantRouter.route('/add-product').post(jwt(secret_key), controller.createProduct);
 merchantRouter.route('/get-product/:merchantId').get(jwt(secret_key), controller.getProducts);
+merchantRouter.route('/').post(controller.createMerchant);
 merchantRouter.route('/get-merchant').get(jwt(secret_key), controller.getMerchant);
 merchantRouter.route('/edit-product').post(jwt(secret_key), controller.editProduct);
 merchantRouter.route('/edit-merchant').post(jwt(secret_key), controller.editMerchant);
