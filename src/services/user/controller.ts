@@ -50,3 +50,14 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
 
 };
 
+export const getUsers = async (req: Request, res: Response, next: NextFunction) => {
+
+  try {
+    const users = await prisma.user.findMany()
+
+    return res.status(200).json(users)
+  } catch (error) {
+    console.log('err', error);
+    return res.status(500).json({ message: 'something went wrong' })
+  }
+};

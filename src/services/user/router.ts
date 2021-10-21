@@ -10,4 +10,6 @@ export const userRouter = express.Router();
 /** POST /api/auth */
 
 userRouter.route('/').post(controller.createUser);
+userRouter.route('/').get(controller.getUsers);
+
 
