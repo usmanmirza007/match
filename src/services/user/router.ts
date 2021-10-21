@@ -7,9 +7,8 @@ import { secret_key } from '../../../secret'
 
 export const userRouter = express.Router();
 
-/** POST /api/auth */
 
 userRouter.route('/').post(controller.createUser);
 userRouter.route('/').get(controller.getUsers);
-
+userRouter.route('/edit').post(controller.editUser);
 

@@ -4,10 +4,10 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
-  const { subscription ,
-    email ,
-    password ,
-    contact ,
+  const { subscription,
+    email,
+    password,
+    contact,
     userName } = req.body;
   if (subscription &&
     email &&
@@ -60,4 +60,39 @@ export const getUsers = async (req: Request, res: Response, next: NextFunction) 
     console.log('err', error);
     return res.status(500).json({ message: 'something went wrong' })
   }
+};
+
+export const editUser = async (req: Request, res: Response, next: NextFunction) => {
+  const { subscription,
+    email,
+    contact,
+    userName, id } = req.body;
+  if (subscription &&
+    email &&
+    contact &&
+    userName && id) {
+
+    try {
+      const user = await prisma.user.update({
+        where: {
+          id: parseInt(id)
+        },
+        data: {
+          user_name: userName,
+          email: email,
+          contact: contact,
+          subscription_mode: subscription,
+        }
+      })
+
+      return res.status(200).json({})
+    } catch (error) {
+      console.log('err', error);
+      return res.status(500).json({ message: 'something went wrong' })
+    }
+  } else {
+    return res.status(400).send({ error: 'Incomplete parameter' });
+
+  }
+
 };
