@@ -19,6 +19,10 @@ const corsOptions ={
 app.use(express.json())
 app.use(cors(corsOptions));
 app.use('/api', services);
+app.use(function (err:any, req: any, res:any, next:any) {
+        res.status(500).json({message: err.message}) // <== YOUR JSON DATA HERE
+})
+
 
 const port = 8000;
 

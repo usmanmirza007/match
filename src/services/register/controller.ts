@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response, ErrorRequestHandler } from 'express';
 import { PrismaClient } from '@prisma/client';
 const readXlsxFile = require("read-excel-file/node");
 const excel = require("exceljs");
@@ -16,7 +16,7 @@ export const registerRouter = async (req: Request, res: Response, next: NextFunc
   } else {
     const merchant = await prisma.admin.findUnique({ where: { email: email } })
     if (merchant) {
-      return res.status(409).json({ message: 'user with email is already register' })
+      return res.status(409).json({ message: 'User with email is already register' })
     } else {
 
       try {
@@ -41,10 +41,10 @@ export const registerRouter = async (req: Request, res: Response, next: NextFunc
 
 };
 
-export const registerBulkUserRouter = async (req: any, res: Response, next: NextFunction) => {
+export const registerBulkUserRouter = async (req: any, res: Response) => {
   try {
     if (req.file == undefined) {
-      return res.status(400).send("Please upload an excel file!");
+      return res.status(400).json({message: "Please upload an excel file!"})
     }
     let realtivePath = path.resolve("uploads/" + req.file.filename);
 

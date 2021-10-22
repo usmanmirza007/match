@@ -1,5 +1,4 @@
 import express from 'express';
-
 import * as controller from './controller';
 
 var multer = require('multer')
@@ -14,14 +13,15 @@ var upload = multer({
             cb(null, `${Date.now()}-bezkoder-${file.originalname}`);
         },
     }), fileFilter: (req: any, file: any, cb: any) => {
-        
+
         if (
             file.mimetype.includes("excel") ||
             file.mimetype.includes("spreadsheetml")
         ) {
             cb(null, true);
         } else {
-            cb("Please upload only excel file.", false);
+             return cb(new Error('Please upload only excel file.'), false);
+
         }
     }
 })
