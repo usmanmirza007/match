@@ -160,10 +160,10 @@
     "@types/mime" "^1"
     "@types/node" "*"
 
-"@xmldom/xmldom@^0.7.0":
-  version "0.7.5"
-  resolved "https://registry.yarnpkg.com/@xmldom/xmldom/-/xmldom-0.7.5.tgz#09fa51e356d07d0be200642b0e4f91d8e6dd408d"
-  integrity sha512-V3BIhmY36fXZ1OtVcI9W+FxQqxVLsPKcNjWigIaa81dLC9IolJl5Mt4Cvhmr0flUnjSpTdrbMTSbXqYqV5dT6A==
+"@xmldom/xmldom@^0.8.2":
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/@xmldom/xmldom/-/xmldom-0.8.2.tgz#b695ff674e8216efa632a3d36ad51ae9843380c0"
+  integrity sha512-+R0juSseERyoPvnBQ/cZih6bpF7IpCXlWbHRoCRzYzqpz6gWHOgf8o4MOEf6KBVuOyqU+gCNLkCWVIJAro8XyQ==
 
 abbrev@1:
   version "1.1.1"
@@ -1107,7 +1107,7 @@ jsonwebtoken@^8.1.0, jsonwebtoken@^8.5.1:
     ms "^2.1.1"
     semver "^5.6.0"
 
-jszip@^3.5.0, jszip@^3.7.1:
+jszip@^3.5.0:
   version "3.7.1"
   resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.7.1.tgz#bd63401221c15625a1228c556ca8a68da6fda3d9"
   integrity sha512-ghL0tz1XG9ZEmRMcEN2vt7xabrDdqHHeykgARpmZ0BiIctWxM47Vt63ZO2dnp4QYt/xJVLLy5Zv1l/xRdh2byg==
@@ -1116,6 +1116,16 @@ jszip@^3.5.0, jszip@^3.7.1:
     pako "~1.0.2"
     readable-stream "~2.3.6"
     set-immediate-shim "~1.0.1"
+
+jszip@^3.9.1:
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.10.0.tgz#faf3db2b4b8515425e34effcdbb086750a346061"
+  integrity sha512-LDfVtOLtOxb9RXkYOwPyNBTQDL4eUbqahtoY6x07GiDJHwSYvn8sHHIw8wINImV3MqbMNve2gSuM1DDqEKk09Q==
+  dependencies:
+    lie "~3.3.0"
+    pako "~1.0.2"
+    readable-stream "~2.3.6"
+    setimmediate "^1.0.5"
 
 jwa@^1.4.1:
   version "1.4.1"
@@ -1566,13 +1576,13 @@ rc@^1.2.8:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-read-excel-file@^5.2.20:
-  version "5.2.20"
-  resolved "https://registry.yarnpkg.com/read-excel-file/-/read-excel-file-5.2.20.tgz#90b2f02e238c42d4c065689af8cea82011b99d5d"
-  integrity sha512-XCrBsWO1MHSag9eEW5o/43vpzmv/+uRq/hzG7Zip83ir8LvHdqHOXCKR3i26wb8Wjia4sV9nUkTw2HJZjk2eNg==
+read-excel-file@^5.3.3:
+  version "5.3.3"
+  resolved "https://registry.yarnpkg.com/read-excel-file/-/read-excel-file-5.3.3.tgz#6d35e1aabe0cfb236ab85f9066fc469a115e2796"
+  integrity sha512-ak3/8c1fA+r2ix1S2ey2PiEEOEoN3QjtwfOQIKE3nlhiLAmKbru6462vhmEibeSgI6e2+Flo/kPPEKHlDXaykw==
   dependencies:
-    "@xmldom/xmldom" "^0.7.0"
-    jszip "^3.7.1"
+    "@xmldom/xmldom" "^0.8.2"
+    jszip "^3.9.1"
     unzipper "^0.10.11"
 
 readable-stream@1.1.x:
@@ -1736,7 +1746,7 @@ set-immediate-shim@~1.0.1:
   resolved "https://registry.yarnpkg.com/set-immediate-shim/-/set-immediate-shim-1.0.1.tgz#4b2b1b27eb808a9f8dcc481a58e5e56f599f3f61"
   integrity sha1-SysbJ+uAip+NzEgaWOXlb1mfP2E=
 
-setimmediate@~1.0.4:
+setimmediate@^1.0.5, setimmediate@~1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/setimmediate/-/setimmediate-1.0.5.tgz#290cbb232e306942d7d7ea9b83732ab7856f8285"
   integrity sha1-KQy7Iy4waULX1+qbg3Mqt4VvgoU=

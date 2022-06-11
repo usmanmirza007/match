@@ -1,11 +1,13 @@
 -- CreateTable
 CREATE TABLE `User` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `user_name` VARCHAR(191) NOT NULL,
-    `password` VARCHAR(191),
+    `firstName` VARCHAR(191) NOT NULL,
+    `lastName` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
-    `contact` VARCHAR(191) NOT NULL,
-    `subscription_mode` VARCHAR(191) NOT NULL,
+    `password` VARCHAR(191),
+    `username` VARCHAR(191) NOT NULL,
+    `userType` ENUM('USER', 'ADMIN') NOT NULL,
+    `psdId` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `User_email_key`(`email`),
     PRIMARY KEY (`id`)

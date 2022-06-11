@@ -8,43 +8,106 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Product {
-  id           Int       @id @default(autoincrement())
-  product_name String
-  company      String
-  country      String
-  contact      String
-  discount     Int       @db.UnsignedInt
-  select_plan  String
-  merchant     Merchant? @relation(fields: [merchantId], references: [id], onDelete: Cascade)
-  merchantId   Int
-}
+// model Product {
+//   id           Int       @id @default(autoincrement())
+//   product_name String
+//   company      String
+//   country      String
+//   contact      String
+//   discount     Int       @db.UnsignedInt
+//   select_plan  String
+//   merchant     Merchant? @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+//   merchantId   Int
+// }
 
-model Admin {
-  id            Int     @id @default(autoincrement())
-  business_name String
-  password      String?
-  email         String  @unique
-  contact       String
-  location      String
-  adminType     String
-}
+// model Admin {
+//   id            Int     @id @default(autoincrement())
+//   business_name String
+//   password      String?
+//   email         String  @unique
+//   contact       String
+//   location      String
+//   adminType     String
+// }
 
-model Merchant {
-  id            Int       @id @default(autoincrement())
-  business_name String
-  password      String?
-  email         String    @unique
-  contact       String
-  location      String
-  Product       Product[]
+// model Merchant {
+//   id            Int       @id @default(autoincrement())
+//   business_name String
+//   password      String?
+//   email         String    @unique
+//   contact       String
+//   location      String
+//   // Product       Product[]
+// }
+enum UserType {
+  USER
+  ADMIN
 }
 
 model User {
-  id                Int     @id @default(autoincrement())
-  user_name         String
-  password          String?
-  email             String  @unique
-  contact           String
-  subscription_mode String
+  id               Int                @id @default(autoincrement())
+  firstName        String
+  lastName         String
+  email            String             @unique
+  password         String?
+  username         String
+  userType         UserType
+  psdId            String
+  Tournament       Tournament[]
+  Team             Team[]
+  FollowTournament FollowTournament[]
+  Match            Match[]
+}
+
+enum Visible {
+  PUBLIC
+  PRIVATE
+}
+
+model Tournament {
+  id               Int                @id @default(autoincrement())
+  title            String
+  visibility       Visible
+  startDate        DateTime
+  endDate          DateTime
+  registrationDate DateTime
+  fee              Int
+  user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId           Int
+  FollowTournament FollowTournament[]
+}
+
+model Team {
+  id           Int      @id @default(autoincrement())
+  name         String
+  playerNumber Int
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       Int
+  Player       Player[]
+}
+
+model Player {
+  id     Int    @id @default(autoincrement())
+  name   String
+  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  teamId Int
+}
+
+model FollowTournament {
+  id           Int        @id @default(autoincrement())
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       Int
+  tournament   Tournament @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  tournamentId Int
+
+  @@unique([userId, tournamentId], name: "unique_following_user")
+}
+
+model Match {
+  id           Int      @id @default(autoincrement())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       Int
+  firstTeamId  Int
+  secondTeamId Int
+  startDate    DateTime
 }
