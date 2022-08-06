@@ -18,7 +18,6 @@ userRouter.route('/allTeam').get(jwt(secret_key), controller.getAllTeam);
 userRouter.route('/player/:teamId').post(jwt(secret_key), controller.createPlayer);
 userRouter.route('/player').get(jwt(secret_key), controller.getPlayer);
 userRouter.route('/player/:playerId').delete(jwt(secret_key), controller.deletePlayer);
-userRouter.route('/follow').post(jwt(secret_key), controller.tournamentFollow);
 userRouter.route('/follow').get(jwt(secret_key), controller.getTournamentFollow);
 userRouter.route('/match').post(jwt(secret_key), controller.createMatch);
 userRouter.route('/match').get(jwt(secret_key), controller.getMatch);
