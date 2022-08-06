@@ -21,6 +21,3 @@ userRouter.route('/player/:playerId').delete(jwt(secret_key), controller.deleteP
 userRouter.route('/follow').get(jwt(secret_key), controller.getTournamentFollow);
 userRouter.route('/match').post(jwt(secret_key), controller.createMatch);
 userRouter.route('/match').get(jwt(secret_key), controller.getMatch);
-
-// userRouter.route('/edit').post(controller.editUser);
-// userRouter.route('/:userId').delete(controller.deleteUser);
