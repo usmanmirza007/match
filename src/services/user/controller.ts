@@ -262,56 +262,6 @@ export const deletePlayer = async (req: Request, res: Response, next: NextFuncti
   }
 };
 
-export const tournamentFollow = async (req: Request, res: Response, next: NextFunction) => {
-
-  const userId = (req as any).user.id
-  const { tournamentId, follow } = req.body
-  if (!tournamentId)
-    return res
-      .status(400)
-      .json({ error: 'Request should have tournamentId' });
-
-  try {
-
-    if (follow) {
-
-      const userFollowing = await prisma.followTournament.upsert({
-        where: {
-          unique_following_user: {
-            userId: userId,
-            tournamentId: tournamentId
-          }
-        },
-        create: {
-          userId: userId,
-          tournamentId: tournamentId
-        },
-        update: {
-          userId: userId,
-          tournamentId: tournamentId
-        },
-      })
-
-    } else {
-
-      const userFollowing = await prisma.followTournament.delete({
-        where: {
-          unique_following_user: {
-            userId: userId,
-            tournamentId: tournamentId
-          }
-        }
-      })
-
-    }
-    return res.status(200).json({ success: true });
-
-
-  } catch (error) {
-    return res.status(500).json(error);
-  }
-}
-
 export const getTournamentFollow = async (req: Request, res: Response, next: NextFunction) => {
 
   const userId = (req as any).user.id
