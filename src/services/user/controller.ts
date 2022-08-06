@@ -332,28 +332,6 @@ export const getTournamentFollow = async (req: Request, res: Response, next: Nex
       }
     }
 
-    const FollowingTournament = await prisma.followTournament.findMany({
-      include: { tournament: true }
-    })
-    var singleUserTournament: Array<any> = []
-    const follow = FollowingTournament.map((value) => {
-
-      if (value.userId == userId) {
-        singleUserTournament.push(value.tournament)
-      }
-    })
-
-    if (singleUserTournament.length) {
-
-      return res.status(200).json(singleUserTournament);
-    }
-
-
-  } catch (error) {
-    return res.status(500).json(error);
-  }
-}
-
 export const createMatch = async (req: Request, res: Response, next: NextFunction) => {
   const { firstTeamId, secondTeamId, startDate } = req.body;
   const userId = (req as any).user.id
@@ -393,45 +371,4 @@ export const getMatch = async (req: Request, res: Response, next: NextFunction) 
     return res.status(500).json({ message: 'something went wrong' })
   }
 };
-// export const editUser = async (req: Request, res: Response, next: NextFunction) => {
-//   const { subscription,
-//     email,
-//     contact,
-//     userName, id } = req.body;
-//   if (subscription &&
-//     email &&
-//     contact &&
-//     userName && id) {
 
-//     try {
-//       const user = await prisma.user.update({
-//         where: {
-//           id: parseInt(id)
-//         },
-//         data: {
-//           username: userName,
-//           email: email,
-//         }
-//       })
-
-//       return res.status(200).json({})
-//     } catch (error) {
-//       console.log('err', error);
-//       return res.status(500).json({ message: 'something went wrong' })
-//     }
-//   } else {
-//     return res.status(400).send({ error: 'Incomplete parameter' });
-
-//   }
-
-// };
-
-// export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
-//   const { userId } = req.params;
-//   try {
-//     await prisma.user.delete({ where: { id: parseInt(userId) } })
-//     return res.status(200).json();
-//   } catch (error) {
-//     return res.status(500).json({ message: 'something went wrong' })
-//   }
-// };
