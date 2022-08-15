@@ -53,7 +53,6 @@ model User {
   username         String
   userType         UserType
   psdId            String
-  Tournament       Tournament[]
   Team             Team[]
   FollowTournament FollowTournament[]
   Match            Match[]
@@ -93,15 +92,6 @@ model Player {
   teamId Int
 }
 
-model FollowTournament {
-  id           Int        @id @default(autoincrement())
-  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId       Int
-  tournament   Tournament @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
-  tournamentId Int
-
-  @@unique([userId, tournamentId], name: "unique_following_user")
-}
 
 model Match {
   id           Int      @id @default(autoincrement())
