@@ -35,7 +35,7 @@ export const createTournament = async (req: Request, res: Response, next: NextFu
     tournamentVisibility = Visible.PRIVATE
   }
 
-  if (!title || !visibility || !startDate || !endDate || !registrationDate || !fee) {
+  if (!title || !visibility || !startDate || !endDate || !registrationDate || !fee || !userId) {
     return res.status(400).send({ error: 'Incomplete parameter' });
   }
 

@@ -38,8 +38,9 @@ export const registerRouter = async (req: Request, res: Response, next: NextFunc
             password: hash,
           }
         })
-        return res.status(200).json({})
+        return res.status(200).json({ response: 'Registered Successfully'})
       } catch (error) {
+        console.log('error', error)
         return res.status(500).json({ message: 'something went wrong' })
       }
     }
@@ -74,7 +75,8 @@ export const loginRouter = async (req: Request, res: Response, next: NextFunctio
             expiresIn: '4h',
             algorithm: secret_key.algorithms[0]
           });
-          return res.status(200).json(data)
+          delete user.password
+          return res.status(200).json({jwt: data, ...user})
         } catch (error) {
           return res.status(500).json({ message: 'something went wrong' })
         }
