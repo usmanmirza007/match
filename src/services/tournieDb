@@ -1,0 +1,633 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 14.5
+-- Dumped by pg_dump version 14.4
+
+-- Started on 2022-08-23 08:41:25 PKT
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 837 (class 1247 OID 16409)
+-- Name: UserType; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public."UserType" AS ENUM (
+    'USER',
+    'ADMIN'
+);
+
+
+ALTER TYPE public."UserType" OWNER TO postgres;
+
+--
+-- TOC entry 840 (class 1247 OID 16414)
+-- Name: Visible; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public."Visible" AS ENUM (
+    'PUBLIC',
+    'PRIVATE'
+);
+
+
+ALTER TYPE public."Visible" OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 219 (class 1259 OID 16456)
+-- Name: FollowTournament; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."FollowTournament" (
+    id integer NOT NULL,
+    "userId" integer NOT NULL,
+    "tournamentId" integer NOT NULL
+);
+
+
+ALTER TABLE public."FollowTournament" OWNER TO postgres;
+
+--
+-- TOC entry 218 (class 1259 OID 16455)
+-- Name: FollowTournament_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."FollowTournament_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."FollowTournament_id_seq" OWNER TO postgres;
+
+--
+-- TOC entry 3652 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: FollowTournament_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."FollowTournament_id_seq" OWNED BY public."FollowTournament".id;
+
+
+--
+-- TOC entry 221 (class 1259 OID 16463)
+-- Name: Match; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Match" (
+    id integer NOT NULL,
+    "userId" integer NOT NULL,
+    "firstTeamId" integer NOT NULL,
+    "secondTeamId" integer NOT NULL,
+    "startDate" timestamp(3) without time zone NOT NULL
+);
+
+
+ALTER TABLE public."Match" OWNER TO postgres;
+
+--
+-- TOC entry 220 (class 1259 OID 16462)
+-- Name: Match_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Match_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Match_id_seq" OWNER TO postgres;
+
+--
+-- TOC entry 3653 (class 0 OID 0)
+-- Dependencies: 220
+-- Name: Match_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Match_id_seq" OWNED BY public."Match".id;
+
+
+--
+-- TOC entry 217 (class 1259 OID 16447)
+-- Name: Player; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Player" (
+    id integer NOT NULL,
+    name text NOT NULL,
+    "teamId" integer NOT NULL
+);
+
+
+ALTER TABLE public."Player" OWNER TO postgres;
+
+--
+-- TOC entry 216 (class 1259 OID 16446)
+-- Name: Player_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Player_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Player_id_seq" OWNER TO postgres;
+
+--
+-- TOC entry 3654 (class 0 OID 0)
+-- Dependencies: 216
+-- Name: Player_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Player_id_seq" OWNED BY public."Player".id;
+
+
+--
+-- TOC entry 215 (class 1259 OID 16438)
+-- Name: Team; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Team" (
+    id integer NOT NULL,
+    name text NOT NULL,
+    "playerNumber" integer NOT NULL,
+    "userId" integer NOT NULL
+);
+
+
+ALTER TABLE public."Team" OWNER TO postgres;
+
+--
+-- TOC entry 214 (class 1259 OID 16437)
+-- Name: Team_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Team_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Team_id_seq" OWNER TO postgres;
+
+--
+-- TOC entry 3655 (class 0 OID 0)
+-- Dependencies: 214
+-- Name: Team_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Team_id_seq" OWNED BY public."Team".id;
+
+
+--
+-- TOC entry 213 (class 1259 OID 16429)
+-- Name: Tournament; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Tournament" (
+    id integer NOT NULL,
+    title text NOT NULL,
+    visibility public."Visible" NOT NULL,
+    "startDate" timestamp(3) without time zone NOT NULL,
+    "endDate" timestamp(3) without time zone NOT NULL,
+    "registrationDate" timestamp(3) without time zone NOT NULL,
+    fee integer NOT NULL,
+    "userId" integer NOT NULL
+);
+
+
+ALTER TABLE public."Tournament" OWNER TO postgres;
+
+--
+-- TOC entry 212 (class 1259 OID 16428)
+-- Name: Tournament_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Tournament_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Tournament_id_seq" OWNER TO postgres;
+
+--
+-- TOC entry 3656 (class 0 OID 0)
+-- Dependencies: 212
+-- Name: Tournament_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Tournament_id_seq" OWNED BY public."Tournament".id;
+
+
+--
+-- TOC entry 211 (class 1259 OID 16420)
+-- Name: User; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."User" (
+    id integer NOT NULL,
+    "firstName" text NOT NULL,
+    "lastName" text NOT NULL,
+    email text NOT NULL,
+    password text,
+    username text NOT NULL,
+    "userType" public."UserType" NOT NULL,
+    "psdId" text NOT NULL
+);
+
+
+ALTER TABLE public."User" OWNER TO postgres;
+
+--
+-- TOC entry 210 (class 1259 OID 16419)
+-- Name: User_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."User_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."User_id_seq" OWNER TO postgres;
+
+--
+-- TOC entry 3657 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: User_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."User_id_seq" OWNED BY public."User".id;
+
+
+--
+-- TOC entry 209 (class 1259 OID 16397)
+-- Name: _prisma_migrations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public._prisma_migrations (
+    id character varying(36) NOT NULL,
+    checksum character varying(64) NOT NULL,
+    finished_at timestamp with time zone,
+    migration_name character varying(255) NOT NULL,
+    logs text,
+    rolled_back_at timestamp with time zone,
+    started_at timestamp with time zone DEFAULT now() NOT NULL,
+    applied_steps_count integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public._prisma_migrations OWNER TO postgres;
+
+--
+-- TOC entry 3471 (class 2604 OID 16459)
+-- Name: FollowTournament id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."FollowTournament" ALTER COLUMN id SET DEFAULT nextval('public."FollowTournament_id_seq"'::regclass);
+
+
+--
+-- TOC entry 3472 (class 2604 OID 16466)
+-- Name: Match id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Match" ALTER COLUMN id SET DEFAULT nextval('public."Match_id_seq"'::regclass);
+
+
+--
+-- TOC entry 3470 (class 2604 OID 16450)
+-- Name: Player id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Player" ALTER COLUMN id SET DEFAULT nextval('public."Player_id_seq"'::regclass);
+
+
+--
+-- TOC entry 3469 (class 2604 OID 16441)
+-- Name: Team id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Team" ALTER COLUMN id SET DEFAULT nextval('public."Team_id_seq"'::regclass);
+
+
+--
+-- TOC entry 3468 (class 2604 OID 16432)
+-- Name: Tournament id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Tournament" ALTER COLUMN id SET DEFAULT nextval('public."Tournament_id_seq"'::regclass);
+
+
+--
+-- TOC entry 3467 (class 2604 OID 16423)
+-- Name: User id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."User" ALTER COLUMN id SET DEFAULT nextval('public."User_id_seq"'::regclass);
+
+
+--
+-- TOC entry 3644 (class 0 OID 16456)
+-- Dependencies: 219
+-- Data for Name: FollowTournament; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."FollowTournament" (id, "userId", "tournamentId") FROM stdin;
+\.
+
+
+--
+-- TOC entry 3646 (class 0 OID 16463)
+-- Dependencies: 221
+-- Data for Name: Match; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Match" (id, "userId", "firstTeamId", "secondTeamId", "startDate") FROM stdin;
+\.
+
+
+--
+-- TOC entry 3642 (class 0 OID 16447)
+-- Dependencies: 217
+-- Data for Name: Player; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Player" (id, name, "teamId") FROM stdin;
+\.
+
+
+--
+-- TOC entry 3640 (class 0 OID 16438)
+-- Dependencies: 215
+-- Data for Name: Team; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Team" (id, name, "playerNumber", "userId") FROM stdin;
+\.
+
+
+--
+-- TOC entry 3638 (class 0 OID 16429)
+-- Dependencies: 213
+-- Data for Name: Tournament; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Tournament" (id, title, visibility, "startDate", "endDate", "registrationDate", fee, "userId") FROM stdin;
+\.
+
+
+--
+-- TOC entry 3636 (class 0 OID 16420)
+-- Dependencies: 211
+-- Data for Name: User; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."User" (id, "firstName", "lastName", email, password, username, "userType", "psdId") FROM stdin;
+1	Test	API	test@api.com	$2a$08$loLKg3JkWYD0fby3qdg7AOq8Pu4BwTSEAs5c6MM9Vu.2QAlHVxZOq	test123	USER	1
+2	Test 123	API 123	test123@api.com	$2a$08$UYiTmIhf92m7PT6ifJYkA.whVc2FcSu1b/VDCzag5d6Vx9xETdZBy	test123123	USER	2
+3	Saad	Hassan	Saad@gmail.com	$2a$08$2Hd2EVC/BIOZYokSbPM9Mu42Lkxb.xCeHqUaYe9P7xzmfMMj8SySu	Saad123	USER	123
+4	Saad	Hassan	Saad123@gmail.com	$2a$08$p1h6YRul7SiQIMEGOP3ig.9QEmWu4eMrXQt32FFJrazGp2g4KJnhq	Saad123	USER	125
+5	Hamza	Khan	Hamza123@gmail.com	$2a$08$35j962f6Orn2T/tjkYIQUe2hanzTJCNofwnWy9n3oZA4NhYOmj.8K	Hamza123	USER	123
+\.
+
+
+--
+-- TOC entry 3634 (class 0 OID 16397)
+-- Dependencies: 209
+-- Data for Name: _prisma_migrations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public._prisma_migrations (id, checksum, finished_at, migration_name, logs, rolled_back_at, started_at, applied_steps_count) FROM stdin;
+4f79f217-bd66-4964-8f34-55179e043db1	c03b9cae424ea3009c541380dc7653b5920886e36e74dccb7674adc731f018e9	2022-08-18 21:22:18.886202+05	20220818162218_tournie	\N	\N	2022-08-18 21:22:18.862334+05	1
+\.
+
+
+--
+-- TOC entry 3658 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: FollowTournament_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."FollowTournament_id_seq"', 1, false);
+
+
+--
+-- TOC entry 3659 (class 0 OID 0)
+-- Dependencies: 220
+-- Name: Match_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Match_id_seq"', 1, false);
+
+
+--
+-- TOC entry 3660 (class 0 OID 0)
+-- Dependencies: 216
+-- Name: Player_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Player_id_seq"', 1, false);
+
+
+--
+-- TOC entry 3661 (class 0 OID 0)
+-- Dependencies: 214
+-- Name: Team_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Team_id_seq"', 1, false);
+
+
+--
+-- TOC entry 3662 (class 0 OID 0)
+-- Dependencies: 212
+-- Name: Tournament_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Tournament_id_seq"', 1, false);
+
+
+--
+-- TOC entry 3663 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: User_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."User_id_seq"', 5, true);
+
+
+--
+-- TOC entry 3485 (class 2606 OID 16461)
+-- Name: FollowTournament FollowTournament_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."FollowTournament"
+    ADD CONSTRAINT "FollowTournament_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3488 (class 2606 OID 16468)
+-- Name: Match Match_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Match"
+    ADD CONSTRAINT "Match_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3483 (class 2606 OID 16454)
+-- Name: Player Player_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Player"
+    ADD CONSTRAINT "Player_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3481 (class 2606 OID 16445)
+-- Name: Team Team_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Team"
+    ADD CONSTRAINT "Team_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3479 (class 2606 OID 16436)
+-- Name: Tournament Tournament_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Tournament"
+    ADD CONSTRAINT "Tournament_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3477 (class 2606 OID 16427)
+-- Name: User User_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."User"
+    ADD CONSTRAINT "User_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3474 (class 2606 OID 16405)
+-- Name: _prisma_migrations _prisma_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public._prisma_migrations
+    ADD CONSTRAINT _prisma_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3486 (class 1259 OID 16470)
+-- Name: FollowTournament_userId_tournamentId_key; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX "FollowTournament_userId_tournamentId_key" ON public."FollowTournament" USING btree ("userId", "tournamentId");
+
+
+--
+-- TOC entry 3475 (class 1259 OID 16469)
+-- Name: User_email_key; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX "User_email_key" ON public."User" USING btree (email);
+
+
+--
+-- TOC entry 3493 (class 2606 OID 16491)
+-- Name: FollowTournament FollowTournament_tournamentId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."FollowTournament"
+    ADD CONSTRAINT "FollowTournament_tournamentId_fkey" FOREIGN KEY ("tournamentId") REFERENCES public."Tournament"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3492 (class 2606 OID 16486)
+-- Name: FollowTournament FollowTournament_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."FollowTournament"
+    ADD CONSTRAINT "FollowTournament_userId_fkey" FOREIGN KEY ("userId") REFERENCES public."User"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3494 (class 2606 OID 16496)
+-- Name: Match Match_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Match"
+    ADD CONSTRAINT "Match_userId_fkey" FOREIGN KEY ("userId") REFERENCES public."User"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3491 (class 2606 OID 16481)
+-- Name: Player Player_teamId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Player"
+    ADD CONSTRAINT "Player_teamId_fkey" FOREIGN KEY ("teamId") REFERENCES public."Team"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3490 (class 2606 OID 16476)
+-- Name: Team Team_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Team"
+    ADD CONSTRAINT "Team_userId_fkey" FOREIGN KEY ("userId") REFERENCES public."User"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3489 (class 2606 OID 16471)
+-- Name: Tournament Tournament_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Tournament"
+    ADD CONSTRAINT "Tournament_userId_fkey" FOREIGN KEY ("userId") REFERENCES public."User"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+-- Completed on 2022-08-23 08:41:25 PKT
+
+--
+-- PostgreSQL database dump complete
+--
+
